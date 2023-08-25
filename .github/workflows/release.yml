@@ -4,7 +4,7 @@ on:
   push:
     branches: master
 env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GITHUB_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
   KEYSTORE_PW: ${{ secrets.KEYSTORE_PW }}
   KEYSTORE: ${{ secrets.KEYSTORE }}
   ALIAS: ${{ secrets.ALIAS }}

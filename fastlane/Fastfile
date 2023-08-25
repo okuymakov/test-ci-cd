@@ -42,7 +42,7 @@ platform :android do
 
             github_release = set_github_release(
                 repository_name: "okuymakov/test-ci-cd",
-                api_bearer: ENV["GITHUB_TOKEN"],
+                api_token: ENV["GITHUB_TOKEN"],
                 name: "Release",
                 tag_name: "v1.22.0",
                 description: changes,
