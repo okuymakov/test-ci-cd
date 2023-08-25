@@ -12,16 +12,17 @@ platform :android do
     end
 
     desc "Build release"
-    lane :build_release do |options|
+    lane :build_signed do |options|
         build_android_app(
-            task: ENV["BUILD_TASK"],
-            build_type: ENV["BUILD_TYPE"],
+            task: options[:build_task],
+            build_type: options[:build_type],
             properties: {
                 "android.injected.signing.store.file" => "/tmp/my-release-key.keystore",
                 "android.injected.signing.store.password" => "#{ENV["KEYSTORE_PW"]}",
                 "android.injected.signing.key.alias" => "#{ENV["ALIAS"]}",
                 "android.injected.signing.key.password" => "#{ENV["ALIAS_PW"]}",
-                "versionCode" => ENV["CI_PIPELINE_ID"],
+                #"versionCode" => ENV["CI_PIPELINE_ID"],
+                #"versionName" => ENV["CI_PIPELINE_ID"]
             }
         )
     end
@@ -29,7 +30,16 @@ platform :android do
     desc "Submit a new build to Github Releases"
     lane :github_release do |options|
         begin
-            build_release()
+            puts "--------------------------"
+            UI.message "Neutral message (usually white)"
+            UI.success "Successfully finished processing (usually green)"
+            UI.error "Wahaha, what's going on here! (usually red)"
+            UI.important "Make sure to use Windows (usually yellow)"
+            UI.header "Inputs"
+
+            build_signed(build_task: "assemble", build_type: "Release")
+            build_signed(build_task: "bundle", build_type: "Release")
+
             changes = changelog_from_git_commits(
                 between: [ENV["CI_COMMIT_BEFORE_SHA"], "HEAD"],
                 pretty: "- (%ae) %s",
@@ -38,26 +48,17 @@ platform :android do
                 merge_commit_filtering: "exclude_merges"
             )
 
-            #puts "Uploading new version(#{ENV["CI_PIPELINE_ID"]}) to Firebase"
-
-            github_release = set_github_release(
+            set_github_release(
                 repository_name: "okuymakov/test-ci-cd",
                 api_bearer: ENV["GITHUB_TOKEN"],
-                name: "Release",
-                tag_name: "v1.22.0",
+                name: "CiCdApp " + ENV["CI_PIPELINE_ID"],
                 description: changes,
                 commitish: "master",
-                upload_assets: ["app/build/outputs/apk/release/app-release.apk"]
+                upload_assets: [
+                    "app/build/outputs/apk/release/app-release.apk",
+                    "app/build/outputs/aab/release/app-release.aab"
+                ]
             )
-
-#             firebase_app_distribution(
-#                 app: ENV["FIREBASE_APP_ID"],
-#                 groups: ENV["FIREBASE_TESTER_GROUP_NAME"],
-#                 android_artifact_type: ENV["FIREBASE_ARTIFACT_TYPE"] = "APK",
-#                 service_credentials_file: "./key_firebase.json",
-#                 release_notes: changes,
-#                 debug: true,
-#             )
         rescue  => exception
             UI.user_error!(exception)
         end
