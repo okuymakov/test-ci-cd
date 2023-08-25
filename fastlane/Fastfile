@@ -12,7 +12,7 @@ platform :android do
     end
 
     desc "Build release"
-    lane :build_app do |options|
+    lane :build_release do |options|
         build_android_app(
             task: ENV["BUILD_TASK"],
             build_type: ENV["BUILD_TYPE"],
