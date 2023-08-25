@@ -35,7 +35,7 @@ jobs:
       - name: 'Upload to Github Releases'
         env:
           VERSION_CODE: ${{ steps.vars.outputs.version_code }}
-          VERSION_NAME: ${{ steps.vars.outputs.minor_version }}
+          VERSION_NAME: ${{ steps.vars.outputs.version_name }}
         run: |
           echo $KEYSTORE | base64 -d -i > /tmp/my-release-key.keystore
           fastlane github_release
