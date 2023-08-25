@@ -44,8 +44,8 @@ platform :android do
             set_github_release(
                 repository_name: "okuymakov/test-ci-cd",
                 api_bearer: ENV["GITHUB_TOKEN"],
-                name: "CiCdApp #{ENV["VERSION_CODE"]}.#{ENV["CI_PIPELINE_ID"]}",
-                tag_name: "v#{ENV["VERSION_CODE"]}.#{ENV["CI_PIPELINE_ID"]}",
+                name: "CiCdApp #{ENV["VERSION_NAME"]}.#{ENV["CI_PIPELINE_ID"]}",
+                tag_name: "v#{ENV["VERSION_NAME"]}.#{ENV["CI_PIPELINE_ID"]}",
                 description: changes,
                 commitish: "master",
                 upload_assets: [
