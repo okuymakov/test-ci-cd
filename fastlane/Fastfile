@@ -11,7 +11,7 @@ platform :android do
         gradle(task: "testDebugUnitTest")
     end
 
-    desc "Build release"
+    desc "Build with signature"
     lane :build_signed do |options|
         build_android_app(
             task: options[:build_task],
@@ -21,13 +21,13 @@ platform :android do
                 "android.injected.signing.store.password" => "#{ENV["KEYSTORE_PW"]}",
                 "android.injected.signing.key.alias" => "#{ENV["ALIAS"]}",
                 "android.injected.signing.key.password" => "#{ENV["ALIAS_PW"]}",
-                #"versionCode" => ENV["VERSION_CODE"],
-                #"versionName" => ENV["VERSION_NAME"],
+                "versionCode" => ENV["VERSION_CODE"],
+                "versionName" => ENV["VERSION_NAME"],
             }
         )
     end
 
-    desc "Submit a new build to Github Releases"
+    desc "Upload to Github Releases"
     lane :github_release do |options|
         begin
             build_signed(build_task: "assemble", build_type: "Release")
@@ -44,8 +44,8 @@ platform :android do
             set_github_release(
                 repository_name: "okuymakov/test-ci-cd",
                 api_bearer: ENV["GITHUB_TOKEN"],
-                name: "CiCdApp 1.22.0." + ENV["CI_PIPELINE_ID"],
-                tag_name: "v1.22.0." + ENV["CI_PIPELINE_ID"],
+                name: "CiCdApp #{ENV["VERSION_CODE"]}.#{ENV["CI_PIPELINE_ID"]}",
+                tag_name: "v#{ENV["VERSION_CODE"]}.#{ENV["CI_PIPELINE_ID"]}",
                 description: changes,
                 commitish: "master",
                 upload_assets: [
