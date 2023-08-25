@@ -31,3 +31,4 @@ jobs:
         env:
           BUILD_TASK: "assemble"
           BUILD_TYPE: "release"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
