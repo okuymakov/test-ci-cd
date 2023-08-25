@@ -41,7 +41,7 @@ platform :android do
             #puts "Uploading new version(#{ENV["CI_PIPELINE_ID"]}) to Firebase"
 
             github_release = set_github_release(
-                repository_name: "okuymakov/test-ci-cd",
+                repository_name: "test-ci-cd",
                 api_token: ENV["GITHUB_TOKEN"],
                 name: "Release",
                 tag_name: "v1.22.0",
