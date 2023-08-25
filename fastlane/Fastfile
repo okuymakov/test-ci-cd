@@ -21,8 +21,8 @@ platform :android do
                 "android.injected.signing.store.password" => "#{ENV["KEYSTORE_PW"]}",
                 "android.injected.signing.key.alias" => "#{ENV["ALIAS"]}",
                 "android.injected.signing.key.password" => "#{ENV["ALIAS_PW"]}",
-                #"versionCode" => ENV["CI_PIPELINE_ID"],
-                #"versionName" => ENV["CI_PIPELINE_ID"],
+                #"versionCode" => ENV["VERSION_CODE"],
+                #"versionName" => ENV["VERSION_NAME"],
             }
         )
     end
@@ -44,8 +44,8 @@ platform :android do
             set_github_release(
                 repository_name: "okuymakov/test-ci-cd",
                 api_bearer: ENV["GITHUB_TOKEN"],
-                name: "CiCdApp 1.22.0",
-                tag_name: "v1.22.0",
+                name: "CiCdApp 1.22.0." + ENV["CI_PIPELINE_ID"],
+                tag_name: "v1.22.0." + ENV["CI_PIPELINE_ID"],
                 description: changes,
                 commitish: "master",
                 upload_assets: [
