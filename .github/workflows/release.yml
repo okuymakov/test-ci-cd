@@ -26,17 +26,9 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-      - name: 'Extract version'
-        id: vars
+      - name: 'Upload to Github Releases'
         run: |
           export $(cat .github/workflows/version.env | xargs)
-          echo "version_code=${VERSION_CODE}" >> $GITHUB_OUTPUT
-          echo "version_name=${VERSION_NAME}" >> $GITHUB_OUTPUT
-      - name: 'Upload to Github Releases'
-        env:
-          VERSION_CODE: ${{ steps.vars.outputs.version_code }}
-          VERSION_NAME: ${{ steps.vars.outputs.version_name }}
-        run: |
           echo $KEYSTORE | base64 -d -i > /tmp/my-release-key.keystore
           fastlane github_release
         
