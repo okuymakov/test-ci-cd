@@ -50,7 +50,7 @@ platform :android do
                 commitish: "master",
                 upload_assets: [
                     "app/build/outputs/apk/release/app-release.apk",
-                    "app/build/outputs/aab/release/app-release.aab"
+                    "app/build/outputs/bundle/release/app-release.aab"
                 ]
             )
         rescue  => exception
