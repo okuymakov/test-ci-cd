@@ -35,3 +35,5 @@ jobs:
           cache: gradle
       - name: Android lint
         run: fastlane lint
+      - name: Lint report
+        run: cat 'app/build/reports/lint-results-debug.html' >> $GITHUB_STEP_SUMMARY
