@@ -26,6 +26,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
+          cache: gradle
       - name: 'Upload to Github Releases'
         run: |
           export $(cat .github/workflows/version.env | xargs)

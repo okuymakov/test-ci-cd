@@ -17,10 +17,9 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
+          cache: gradle
       - name: Unit test
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: testDebug
+        run: fastlane unit_test
   android_lint:
     name: "Check project by android`s lint"
     runs-on: ubuntu-latest
@@ -33,7 +32,6 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
+          cache: gradle
       - name: Android lint
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: lint
+        run: fastlane lint
